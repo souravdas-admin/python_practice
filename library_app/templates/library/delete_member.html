@@ -1,0 +1,94 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Delete Member | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .delete-page {
+        max-width: 500px;
+        margin: 70px auto;
+    }
+
+    .delete-card {
+        background: white;
+        padding: 40px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .delete-icon {
+        font-size: 50px;
+        margin-bottom: 15px;
+    }
+
+    .delete-card h1 {
+        color: #991b1b;
+        margin-bottom: 15px;
+    }
+
+    .delete-card p {
+        color: #64748b;
+        margin-bottom: 25px;
+        font-size: 16px;
+    }
+
+    .delete-btn {
+        width: 100%;
+        padding: 13px;
+        background: #dc2626;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        background: #b91c1c;
+    }
+
+    .cancel-link {
+        display: block;
+        margin-top: 18px;
+        color: #64748b;
+        text-decoration: none;
+    }
+</style>
+
+<div class="delete-page">
+
+    <div class="delete-card">
+
+        <div class="delete-icon">
+            ⚠️
+        </div>
+
+        <h1>Delete Member</h1>
+
+        <p>
+            Are you sure you want to delete
+            <strong>"{{ specific_member.name }}"</strong>?
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button type="submit" class="delete-btn">
+                Delete Member
+            </button>
+
+        </form>
+
+        <a href="{% url 'show_all_members' %}" class="cancel-link">
+            Cancel
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

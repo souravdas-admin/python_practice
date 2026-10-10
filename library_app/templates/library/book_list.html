@@ -1,0 +1,269 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Books | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background:
+            linear-gradient(rgba(244, 247, 251, 0.88), rgba(244, 247, 251, 0.88)),
+            url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=2000&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .books-page {
+        max-width: 1250px;
+        margin: 45px auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+        font-size: 42px;
+        color: #172554;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+    }
+
+    .page-header p {
+        font-size: 17px;
+        color: #475569;
+    }
+
+    .top-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        transition: 0.25s;
+    }
+
+    .add-btn {
+        background: #2563eb;
+    }
+
+    .add-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+    }
+
+    .member-btn {
+        background: #475569;
+    }
+
+    .member-btn:hover {
+        background: #334155;
+        transform: translateY(-2px);
+    }
+
+    .table-container {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 10px;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: transparent;
+    }
+
+    th {
+        background: #172554;
+        color: white;
+        padding: 16px 12px;
+        text-align: center;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+
+    th:first-child {
+        border-radius: 10px 0 0 0;
+    }
+
+    th:last-child {
+        border-radius: 0 10px 0 0;
+    }
+
+    td {
+        padding: 15px 12px;
+        text-align: center;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        color: #1e293b;
+        font-size: 15px;
+    }
+
+    tr:hover td {
+        background: rgba(219, 234, 254, 0.55);
+    }
+
+    .book-title {
+        font-weight: 600;
+        color: #172554;
+    }
+
+    .available {
+        font-weight: 700;
+        color: #15803d;
+    }
+
+    .unavailable {
+        font-weight: 700;
+        color: #dc2626;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 7px;
+        text-decoration: none;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        margin: 2px;
+        transition: 0.2s;
+    }
+
+    .edit-btn {
+        background: #2563eb;
+    }
+
+    .edit-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .delete-btn {
+        background: #dc2626;
+    }
+
+    .delete-btn:hover {
+        background: #b91c1c;
+    }
+
+    @media (max-width: 800px) {
+        .page-header h1 {
+            font-size: 32px;
+        }
+
+        .books-page {
+            width: 95%;
+        }
+
+        th,
+        td {
+            font-size: 13px;
+            padding: 10px 8px;
+        }
+    }
+</style>
+
+<div class="books-page">
+
+    <div class="page-header">
+        <h1>📚 Available Books</h1>
+        <p>Explore and manage the books available in your library.</p>
+    </div>
+
+    <div class="top-actions">
+        <a href="{% url 'add_book' %}" class="action-btn add-btn">
+            + Add New Book
+        </a>
+
+        <a href="{% url 'show_all_members' %}" class="action-btn member-btn">
+            👥 Member Details
+        </a>
+
+        <a href="{% url 'issue_book' %}" class="action-btn add-btn">
+            📖 Issue Book
+        </a>
+
+        <a href="{% url 'issued_book' %}" class="action-btn member-btn">
+            📋 Issued Books
+        </a>
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Publication Year</th>
+                <th>Total Copies</th>
+                <th>Available Copies</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for book in all_books %}
+
+            <tr>
+
+                <td class="book-title">
+                    {{ book.title }}
+                </td>
+
+                <td>
+                    {{ book.author }}
+                </td>
+
+                <td>
+                    {{ book.genre }}
+                </td>
+
+                <td>
+                    {{ book.publication_year }}
+                </td>
+
+                <td>
+                    {{ book.total_copies }}
+                </td>
+
+                <td class="{% if book.available_copies > 0 %}available{% else %}unavailable{% endif %}">
+                    {{ book.available_copies }}
+                </td>
+
+                <td>
+                    <a href="{% url 'update_book' book.id %}" class="edit-btn">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_book' book.id %}" class="delete-btn">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

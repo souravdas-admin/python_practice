@@ -1,0 +1,22 @@
+# Environments
+myenv/
+venv/
+ENV/
+env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*.class
+
+# Django database & media
+*.sqlite3
+db.sqlite3
+/media
+
+# Sensitive environment variables
+.env
+
+# IDE / Editor folders
+.vscode/
+.idea/

@@ -1,0 +1,218 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Issued Books | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .issued-page {
+        max-width: 1200px;
+        margin: 45px auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+        font-size: 40px;
+        color: #172554;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #64748b;
+    }
+
+    .top-actions {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .back-btn {
+        display: inline-block;
+        padding: 11px 20px;
+        background: #475569;
+        color: white;
+        text-decoration: none;
+        border-radius: 9px;
+        font-weight: 600;
+    }
+
+    .back-btn:hover {
+        background: #334155;
+    }
+
+    .table-container {
+        background: white;
+        padding: 10px;
+        border-radius: 18px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #172554;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+
+    td {
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    tr:hover td {
+        background: #f8fafc;
+    }
+
+    .book-name {
+        font-weight: 600;
+        color: #172554;
+    }
+
+    .active {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .returned {
+        background: #dcfce7;
+        color: #166534;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .return-btn {
+        display: inline-block;
+        padding: 8px 14px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .return-btn:hover {
+        background: #1d4ed8;
+    }
+</style>
+
+<div class="issued-page">
+
+    <div class="page-header">
+        <h1>📋 Issued Books</h1>
+        <p>Track all books currently issued and returned.</p>
+    </div>
+
+    <div class="top-actions">
+        <a href="{% url 'show_all_books' %}" class="back-btn">
+            ← Back to Books
+        </a>
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <tr>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for issue in books_issued %}
+
+            <tr>
+
+                <td class="book-name">
+                    {{ issue.book.title }}
+                </td>
+
+                <td>
+                    {{ issue.member.name }}
+                </td>
+
+                <td>
+                    {{ issue.issue_date }}
+                </td>
+
+                <td>
+                    {{ issue.due_date }}
+                </td>
+
+                <td>
+                    {% if issue.return_date %}
+                        {{ issue.return_date }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <td>
+
+                    {% if issue.return_date %}
+                        <span class="returned">Returned</span>
+                    {% else %}
+                        <span class="active">Issued</span>
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if issue.return_date %}
+
+                        <span class="returned">
+                            Returned
+                        </span>
+
+                    {% else %}
+
+                        <a href="{% url 'return_book' issue.id %}"
+                           class="return-btn">
+                            Return
+                        </a>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="7">
+                    No books have been issued yet.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

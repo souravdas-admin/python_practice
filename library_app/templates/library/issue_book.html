@@ -1,0 +1,133 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Issue Book | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .issue-page {
+        max-width: 700px;
+        margin: 45px auto;
+    }
+
+    .issue-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .issue-header h1 {
+        font-size: 40px;
+        color: #172554;
+        margin-bottom: 8px;
+    }
+
+    .issue-header p {
+        color: #64748b;
+        font-size: 16px;
+    }
+
+    .issue-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .issue-icon {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 25px;
+        border-radius: 50%;
+        background: #dbeafe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 35px;
+    }
+
+    .issue-card p {
+        margin-bottom: 20px;
+    }
+
+    .issue-card label {
+        display: block;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .issue-card select {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        font-size: 15px;
+        background: white;
+    }
+
+    .issue-card select:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .issue-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 14px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .issue-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 18px;
+        color: #2563eb;
+        text-decoration: none;
+    }
+</style>
+
+<div class="issue-page">
+
+    <div class="issue-header">
+        <h1>📖 Issue a Book</h1>
+        <p>Select a book and member to create a borrowing record.</p>
+    </div>
+
+    <div class="issue-card">
+
+        <div class="issue-icon">
+            📚
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ book_form.as_p }}
+
+            <button type="submit" class="issue-btn">
+                Issue Book
+            </button>
+
+        </form>
+
+        <a href="{% url 'show_all_books' %}" class="back-link">
+            ← Back to Books
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

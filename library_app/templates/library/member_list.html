@@ -1,0 +1,225 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Members | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .members-page {
+        max-width: 1100px;
+        margin: 45px auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .page-header h1 {
+        font-size: 40px;
+        color: #172554;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #64748b;
+        font-size: 17px;
+    }
+
+    .top-actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 35px;
+    }
+
+    .action-btn {
+        padding: 12px 22px;
+        border-radius: 9px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+
+    .add-btn {
+        background: #2563eb;
+    }
+
+    .add-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+    }
+
+    .home-btn {
+        background: #475569;
+    }
+
+    .home-btn:hover {
+        background: #334155;
+        transform: translateY(-2px);
+    }
+
+    .member-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .member-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        transition: 0.3s;
+        border-left: 5px solid #2563eb;
+    }
+
+    .member-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .member-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: #1d4ed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 18px;
+    }
+
+    .member-name {
+        font-size: 22px;
+        color: #172554;
+        margin-bottom: 15px;
+    }
+
+    .member-info {
+        color: #64748b;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .member-info strong {
+        color: #334155;
+    }
+
+    .member-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        flex: 1;
+        text-align: center;
+        padding: 9px;
+        border-radius: 7px;
+        text-decoration: none;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .edit-btn {
+        background: #2563eb;
+    }
+
+    .delete-btn {
+        background: #dc2626;
+    }
+
+    .edit-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .delete-btn:hover {
+        background: #b91c1c;
+    }
+</style>
+
+
+<div class="members-page">
+
+    <div class="page-header">
+        <h1>👥 Library Members</h1>
+        <p>Manage all registered members of the library.</p>
+    </div>
+
+
+    <div class="top-actions">
+
+        <a href="{% url 'add_member' %}" class="action-btn add-btn">
+            + Add New Member
+        </a>
+
+        <a href="{% url 'show_all_books' %}" class="action-btn home-btn">
+            🏠 Back to Books
+        </a>
+
+    </div>
+
+
+    <div class="member-grid">
+
+        {% for member in all_members %}
+
+        <div class="member-card">
+
+            <div class="member-icon">
+                👤
+            </div>
+
+            <div class="member-name">
+                {{ member.name }}
+            </div>
+
+            <div class="member-info">
+
+                <div>
+                    <strong>Email:</strong>
+                    {{ member.email }}
+                </div>
+
+                <div>
+                    <strong>Phone:</strong>
+                    {{ member.phone }}
+                </div>
+
+                <div>
+                    <strong>Member Since:</strong>
+                    {{ member.membership_date }}
+                </div>
+
+            </div>
+
+
+            <div class="member-actions">
+
+                <a href="{% url 'update_member' member.id %}"
+                   class="edit-btn">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_member' member.id %}"
+                   class="delete-btn">
+                    Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

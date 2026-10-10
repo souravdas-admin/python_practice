@@ -1,0 +1,112 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Return Book | Library Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .return-page {
+        max-width: 550px;
+        margin: 70px auto;
+    }
+
+    .return-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .return-icon {
+        font-size: 55px;
+        margin-bottom: 15px;
+    }
+
+    .return-card h1 {
+        color: #172554;
+        margin-bottom: 20px;
+    }
+
+    .book-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 10px;
+    }
+
+    .member-name {
+        color: #64748b;
+        margin-bottom: 25px;
+    }
+
+    .confirmation {
+        color: #475569;
+        margin-bottom: 25px;
+    }
+
+    .confirm-btn {
+        width: 100%;
+        padding: 13px;
+        background: #16a34a;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .confirm-btn:hover {
+        background: #15803d;
+    }
+
+    .cancel-link {
+        display: block;
+        margin-top: 18px;
+        color: #64748b;
+        text-decoration: none;
+    }
+</style>
+
+<div class="return-page">
+
+    <div class="return-card">
+
+        <div class="return-icon">
+            🔄
+        </div>
+
+        <h1>Return Book</h1>
+
+        <div class="book-title">
+            {{ issue.book.title }}
+        </div>
+
+        <div class="member-name">
+            Issued to {{ issue.member.name }}
+        </div>
+
+        <p class="confirmation">
+            Are you sure you want to return this book?
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button type="submit" class="confirm-btn">
+                ✓ Confirm Return
+            </button>
+
+        </form>
+
+        <a href="{% url 'issued_book' %}" class="cancel-link">
+            Cancel
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
