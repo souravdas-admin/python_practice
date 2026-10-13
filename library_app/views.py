@@ -111,3 +111,4 @@ def return_book(request,id):
             'library/return_book.html',
             {'issue': issue}
         )
+print("views.py executed successfully")
